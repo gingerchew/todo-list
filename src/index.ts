@@ -26,7 +26,7 @@ interface ITodoItem extends HTMLLIElement {
     disconnectedCallback(): void;
 }
 
-customElements.define('todo-list', class extends HTMLElement implements ITodoList {
+window.customElements.define('todo-list', class extends HTMLElement implements ITodoList {
     _todos = new WeakMap();
     _input = this.querySelector<HTMLInputElement>('[ref="input"]')!;
     _submit = this.querySelector<HTMLButtonElement>('[ref="submit"]')!;
@@ -102,13 +102,24 @@ customElements.define('todo-list', class extends HTMLElement implements ITodoLis
     }
 })
 
-customElements.define('todo-item', class extends HTMLLIElement implements ITodoItem {
+window.customElements.define('todo-item', class extends HTMLLIElement implements ITodoItem {
     _listParent: ITodoList = this.closest('todo-list')!;
     constructor() {
         super();
         if (!this.hasAttribute('title')) {
             throw new Error('TodoItem must have a title attribute to be constructed');
         }
+    }
+
+    static observedAttributes() {
+        return ['title'];
+    }
+
+    attributeChangedCallback(name: string, _oldValue: unknown, newValue: string) {
+        console.log({ name, _oldValue, newValue});
+        if (name !== 'title') return;
+
+        this.innerHTML = `<span>${newValue}</span><button type="button">&times; Clear</button>`
     }
 
     _removeSelf() {
@@ -123,7 +134,6 @@ customElements.define('todo-item', class extends HTMLLIElement implements ITodoI
     }
 
     connectedCallback() {
-        this.innerHTML = `<span>${this.getAttribute('title')}</span><button type="button">&times; Clear</button>`
         this.addEventListener('click', this as unknown as EventListenerObject);
     }
 
