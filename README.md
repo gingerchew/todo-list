@@ -8,8 +8,6 @@ A todolist "app" built with web components.
 import "todo-list-wc";
 ```
 
-*Elements with a `ref` attribute are required, the following structure is not required.*
-
 ```html
 <todo-list>
     <input ref="input" type="text">
@@ -20,13 +18,16 @@ import "todo-list-wc";
 </todo-list>
 ```
 
-The `<todo-list>` element will automatically add event listeners by looking for the given refs:
+
+The `<todo-list>` element will automatically add event listeners by looking for the given refs[^1]:
 
 | Ref Name | Expected Element Type |
 | - | -: |
 | `input` | `HTMLInputElement` |
 | `submit` | `HTMLButtonElement` |
-| `list` | `HTMLUListElement`[^1] |
+| `list` | `HTMLUListElement`[^2] |
 
-[^1]: The `list` ref could be swapped for a `HTMLOListElement` and work fine, but other list HTMLElements will not work.
+[^1]: Elements with a `ref` attribute are required, the following structure is not required.
+
+[^2]: The `list` ref could be swapped for a `HTMLOListElement` and work fine, but other list HTMLElements will not work.
 
