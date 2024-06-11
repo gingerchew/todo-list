@@ -27,7 +27,7 @@ The `<todo-list>` element will automatically add event listeners by looking for 
 | `submit` | `HTMLButtonElement` |
 | `list` | `HTMLUListElement`[^2] |
 
-[^1]: Elements with a `ref` attribute are required, the following structure is not required.
+[^1]: The elements in the example with a `ref` attribute are required. How you place them and the HTML inside the `<todo-list>` element is up to you.
 
 [^2]: The `list` ref could be swapped for a `HTMLOListElement` and work fine, but other list HTMLElements will not work.
 
