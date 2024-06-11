@@ -26,7 +26,7 @@ The `<todo-list>` element will automatically add event listeners by looking for 
 | - | -: |
 | `input` | `HTMLInputElement` |
 | `submit` | `HTMLButtonElement` |
-| `list` | `HTMLUListElement` ^1 |
+| `list` | `HTMLUListElement`[^1] |
 
-[1] The `list` ref could be swapped for a `HTMLOListElement` and work fine, but other list HTMLElements will not work.
+[^1]: The `list` ref could be swapped for a `HTMLOListElement` and work fine, but other list HTMLElements will not work.
 
