@@ -1,7 +1,7 @@
 {
   "name": "wc-todo-list",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.0.1",
+  "description": "A todo list \"app\" built with web components.",
   "source": "src/index.ts",
   "exports": "./dist/index.modern.js",
   "module":"./dist/index.modern.js",
@@ -11,8 +11,8 @@
     "build":"microbundle -f=modern -o=./dist/todo-list.js",
     "dev":"microbundle watch"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["web components","custom elements","todo list","todo"],
+  "author": "ginger",
   "license": "MIT",
   "devDependencies": {
     "microbundle": "^0.15.1"
