@@ -26,7 +26,7 @@ interface ITodoItem extends HTMLElement {
     disconnectedCallback(): void;
 }
 
-window.customElements.define('todo-list', class extends HTMLElement implements ITodoList {
+class TodoList extends HTMLElement implements ITodoList {
     _todos = new WeakMap();
     _input = this.querySelector<HTMLInputElement>('[ref="input"]')!;
     _submit = this.querySelector<HTMLButtonElement>('[ref="submit"]')!;
@@ -103,9 +103,9 @@ window.customElements.define('todo-list', class extends HTMLElement implements I
     disconnectedCallback() {
         this._submit.removeEventListener('click', this);
     }
-})
+}
 
-window.customElements.define('todo-item', class extends HTMLElement implements ITodoItem {
+class TodoItem extends HTMLElement implements ITodoItem {
     _listParent: ITodoList = this.closest('todo-list')!;
     constructor() {
         super();
@@ -150,4 +150,7 @@ window.customElements.define('todo-item', class extends HTMLElement implements I
     disconnectedCallback() {
         this.removeEventListener('click', this as unknown as EventListenerObject);
     }
-})
+}
+
+window.customElements.define('todo-list', TodoList);
+window.customElements.define('todo-item', TodoItem);
