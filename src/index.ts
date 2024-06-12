@@ -1,36 +1,28 @@
 interface ITodoList extends HTMLElement {
     _input: HTMLInputElement;
     _submit: HTMLButtonElement;
-    _list: ITodoListElement;
-    _todos: WeakMap<ITodoItem, string>;
+    _list: HTMLUListElement;
+    _todos: WeakMap<HTMLLIElement, string>;
     _useLocal: boolean;
-    get _lastItem(): ITodoItem;
+    get _lastItem(): HTMLLIElement;
     set _todosLocal(todo: string|string[]);
     get _todosLocal():string[];
     add(todo: string, shouldStore: boolean): void;
-    delete(todo: ITodoItem): void;
+    delete(todo: HTMLLIElement): void;
     handleEvent(e: MouseEvent): void;
     connectedCallback():void;
     disconnectedCallback():void;
 }
 
-interface ITodoListElement extends HTMLUListElement {
-    children: HTMLCollectionOf<ITodoItem>;
-}
-
-interface ITodoItem extends HTMLElement {
-    _listParent: ITodoList;
-    _removeSelf():void;
-    handleEvent(e: MouseEvent):void;
-    connectedCallback(): void;
-    disconnectedCallback(): void;
+interface ITodoUList extends HTMLUListElement {
+    children: HTMLCollectionOf<HTMLLIElement>;
 }
 
 class TodoList extends HTMLElement implements ITodoList {
     _todos = new WeakMap();
     _input = this.querySelector<HTMLInputElement>('[ref="input"]')!;
     _submit = this.querySelector<HTMLButtonElement>('[ref="submit"]')!;
-    _list = this.querySelector<ITodoListElement>('[ref="list"]')!;
+    _list = this.querySelector<ITodoUList>('[ref="list"]')!;
     _useLocal = this.hasAttribute('use-local');
     static i = 1;
     static getId() {
@@ -63,9 +55,9 @@ class TodoList extends HTMLElement implements ITodoList {
         const li = document.createElement('li', { is: 'todo-item' });
         li.setAttribute('title', todo);
         */
-        this._list.insertAdjacentHTML('beforeend', `<li ref="${TodoList.getId()}">
+        this._list.insertAdjacentHTML('beforeend', `<li>
             <span>${todo}</span>
-            <button type="button">&times; Clear<button>
+            <button type="button">&times; Clear</button>
         </li>`)
 
         this._todos.set(this._lastItem, todo);
@@ -75,7 +67,7 @@ class TodoList extends HTMLElement implements ITodoList {
         }
     }
 
-    delete(todoElement: ITodoItem) {
+    delete(todoElement: HTMLLIElement) {
         if (this._todos.has(todoElement)) {
             this._todos.delete(todoElement);
             if (this._useLocal) {
