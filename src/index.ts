@@ -55,9 +55,11 @@ window.customElements.define('todo-list', class extends HTMLElement implements I
     }
 
     add(todo: string, shouldStore = this._useLocal) {
+        /*
         const li = document.createElement('li', { is: 'todo-item' });
         li.setAttribute('title', todo);
-        this._list.insertAdjacentElement('beforeend', li)
+        */
+        this._list.insertAdjacentHTML('beforeend', `<todo-item title="${todo}"></todo-item>`)
 
         this._todos.set(this._lastItem, todo);
         this._input.value = '';
@@ -107,7 +109,7 @@ window.customElements.define('todo-item', class extends HTMLElement implements I
     constructor() {
         super();
         if (!this.hasAttribute('title')) {
-            throw new Error('TodoItem must have a title attribute to be constructed');
+            console.error('<todo-item> must have a title attribute to be constructed');
         }
         // Customized built-in elements don't have enough support. Using the role attribute ponyfills it.
         this.setAttribute('role', 'listitem');
@@ -117,10 +119,14 @@ window.customElements.define('todo-item', class extends HTMLElement implements I
         return ['title'];
     }
 
+    render(title: string) {
+        this.innerHTML = `<span>${title}</span><button type="button">&times; Clear</button>`;
+    }
+
     attributeChangedCallback(name: string, _oldValue: unknown, newValue: string) {
         if (name !== 'title') return;
 
-        this.innerHTML = `<span>${newValue}</span><button type="button">&times; Clear</button>`
+        this.render(newValue);
     }
 
     _removeSelf() {
@@ -136,6 +142,7 @@ window.customElements.define('todo-item', class extends HTMLElement implements I
 
     connectedCallback() {
         this.addEventListener('click', this as unknown as EventListenerObject);
+        this.render(this.getAttribute('title')!);
     }
 
     disconnectedCallback() {
