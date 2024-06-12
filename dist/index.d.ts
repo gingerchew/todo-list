@@ -16,7 +16,7 @@ interface ITodoList extends HTMLElement {
 interface ITodoListElement extends HTMLUListElement {
     children: HTMLCollectionOf<ITodoItem>;
 }
-interface ITodoItem extends HTMLLIElement {
+interface ITodoItem extends HTMLElement {
     _listParent: ITodoList;
     _removeSelf(): void;
     handleEvent(e: MouseEvent): void;
