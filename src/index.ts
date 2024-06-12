@@ -82,12 +82,13 @@ class TodoList extends HTMLElement implements ITodoList {
     }
 
     handleEvent({ target }) {
+        console.log(target.closest('li > button'));
         switch(true) {
-            case target.closest('[ref="submit"]') && this._input.value !== '':
-                this.add(this._input.value);
-                break;
             case target.closest('li > button'):
                 this.delete(target.closest('li'));
+                break;
+            case target.closest('[ref="submit"]') && this._input.value !== '':
+                this.add(this._input.value);
                 break;
         }
     }
