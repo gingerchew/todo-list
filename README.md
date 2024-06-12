@@ -31,3 +31,8 @@ The `<todo-list>` element will automatically add event listeners by looking for 
 
 [^2]: The `list` ref could be swapped for a `HTMLOListElement` and work fine, but other list HTMLElements will not work.
 
+
+## TODO
+
+- [ ] Add editing using `contenteditable` and `toggleAttribute`
+- [ ] Add styling to control what buttons are visible based on `contenteditable` state
