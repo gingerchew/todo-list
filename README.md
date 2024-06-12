@@ -2,6 +2,9 @@
 
 A todolist "app" built with web components.
 
+> **Warning** 
+This package uses Customized built-in elements, be sure to include a polyfill. I recommend just using [the one provided by ungap](https://github.com/ungap/custom-elements).
+
 ## How to use
 
 ```js
