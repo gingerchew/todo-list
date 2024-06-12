@@ -3,8 +3,8 @@
   "version": "1.0.1",
   "description": "A todo list \"app\" built with web components.",
   "source": "src/index.ts",
-  "exports": "./dist/index.modern.js",
-  "module":"./dist/index.modern.js",
+  "exports": "./dist/todo-list.modern.js",
+  "module":"./dist/todo-list.modern.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
