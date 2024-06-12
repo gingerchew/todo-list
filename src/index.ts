@@ -71,13 +71,14 @@ window.customElements.define('todo-list', class extends HTMLElement implements I
     delete(todoElement: ITodoItem) {
         if (this._todos.has(todoElement)) {
             this._todos.delete(todoElement);
-            todoElement.remove();
             if (this._useLocal) {
                 const data = this._todosLocal;
                 const indexOfTodo = data.indexOf(todoElement.getAttribute('title')!);
                 data.splice(indexOfTodo, 1);
                 this._todosLocal = data;
             }
+
+            todoElement.remove();
         }
     }
 
@@ -141,8 +142,9 @@ window.customElements.define('todo-item', class extends HTMLElement implements I
     }
 
     connectedCallback() {
-        this.addEventListener('click', this as unknown as EventListenerObject);
+        console.log('connected');
         this.render(this.getAttribute('title')!);
+        this.addEventListener('click', this as unknown as EventListenerObject);
     }
 
     disconnectedCallback() {
