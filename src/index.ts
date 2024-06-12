@@ -18,7 +18,7 @@ interface ITodoListElement extends HTMLUListElement {
     children: HTMLCollectionOf<ITodoItem>;
 }
 
-interface ITodoItem extends HTMLLIElement {
+interface ITodoItem extends HTMLElement {
     _listParent: ITodoList;
     _removeSelf():void;
     handleEvent(e: MouseEvent):void;
@@ -102,7 +102,7 @@ window.customElements.define('todo-list', class extends HTMLElement implements I
     }
 })
 
-window.customElements.define('todo-item', class extends HTMLLIElement implements ITodoItem {
+window.customElements.define('todo-item', class extends HTMLElement implements ITodoItem {
     _listParent: ITodoList = this.closest('todo-list')!;
     constructor() {
         super();
@@ -116,7 +116,6 @@ window.customElements.define('todo-item', class extends HTMLLIElement implements
     }
 
     attributeChangedCallback(name: string, _oldValue: unknown, newValue: string) {
-        console.log({ name, _oldValue, newValue});
         if (name !== 'title') return;
 
         this.innerHTML = `<span>${newValue}</span><button type="button">&times; Clear</button>`
