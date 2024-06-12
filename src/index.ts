@@ -109,6 +109,8 @@ window.customElements.define('todo-item', class extends HTMLElement implements I
         if (!this.hasAttribute('title')) {
             throw new Error('TodoItem must have a title attribute to be constructed');
         }
+        // Customized built-in elements don't have enough support. Using the role attribute ponyfills it.
+        this.setAttribute('role', 'listitem');
     }
 
     static observedAttributes() {
@@ -139,4 +141,4 @@ window.customElements.define('todo-item', class extends HTMLElement implements I
     disconnectedCallback() {
         this.removeEventListener('click', this as unknown as EventListenerObject);
     }
-}, { extends: 'li' })
+})
