@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Web Component Based Todo List</title>
 </head>
 <body>
-    <todo-list>
+    <h1>Add Todo's using the input below! <small><i>They are also saved to <code>localStorage</code> so feel free to refresh the page!</i></small></h1>
+    <todo-list use-local>
         <input type="text" ref="input" />
         <button type="button" ref="submit">Add todo</button>
         <ul ref="list">
 
         </ul>
     </todo-list>
-    <script type="module" src="./dist/todo-list-wc.modern.js"></script>
+    <script type="module" src="https://esm.sh/gh/gingerchew/todo-list@latest"></script>
 </body>
 </html>
