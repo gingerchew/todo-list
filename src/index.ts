@@ -49,10 +49,6 @@ class TodoList extends HTMLElement implements ITodoList {
     }
 
     add(todo: string, shouldStore = this._useLocal) {
-        /*
-        const li = document.createElement('li', { is: 'todo-item' });
-        li.setAttribute('title', todo);
-        */
         this._list.insertAdjacentHTML('beforeend', `<li>
             <span>${todo}</span>
             <button type="button">&times; Clear</button>
@@ -80,12 +76,11 @@ class TodoList extends HTMLElement implements ITodoList {
     }
 
     handleEvent({ target }) {
-        console.log(target.closest('li > button'));
         switch(true) {
-            case target.closest('li > button'):
+            case !!target.closest('li > button'):
                 this.delete(target.closest('li'));
                 break;
-            case target.closest('[ref="submit"]') && this._input.value !== '':
+            case !!target.closest('[ref="submit"]') && this._input.value !== '':
                 this.add(this._input.value);
                 break;
         }
