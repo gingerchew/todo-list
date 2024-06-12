@@ -1,6 +1,5 @@
 interface ITodoList extends HTMLElement {
     _input: HTMLInputElement;
-    _submit: HTMLButtonElement;
     _list: HTMLUListElement;
     _todos: WeakMap<HTMLLIElement, string>;
     _useLocal: boolean;
@@ -21,7 +20,6 @@ interface ITodoUList extends HTMLUListElement {
 class TodoList extends HTMLElement implements ITodoList {
     _todos = new WeakMap();
     _input = this.querySelector<HTMLInputElement>('[ref="input"]')!;
-    _submit = this.querySelector<HTMLButtonElement>('[ref="submit"]')!;
     _list = this.querySelector<ITodoUList>('[ref="list"]')!;
     _useLocal = this.hasAttribute('use-local');
     static i = 1;
@@ -98,11 +96,11 @@ class TodoList extends HTMLElement implements ITodoList {
             this._todosLocal
                 .forEach(todo => this.add(todo, false));
 
-        this._submit.addEventListener('click', this);
+        this.addEventListener('click', this);
     }
 
     disconnectedCallback() {
-        this._submit.removeEventListener('click', this);
+        this.removeEventListener('click', this);
     }
 }
 

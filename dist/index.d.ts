@@ -1,6 +1,5 @@
 interface ITodoList extends HTMLElement {
     _input: HTMLInputElement;
-    _submit: HTMLButtonElement;
     _list: HTMLUListElement;
     _todos: WeakMap<HTMLLIElement, string>;
     _useLocal: boolean;
@@ -19,7 +18,6 @@ interface ITodoUList extends HTMLUListElement {
 declare class TodoList extends HTMLElement implements ITodoList {
     _todos: WeakMap<object, any>;
     _input: HTMLInputElement;
-    _submit: HTMLButtonElement;
     _list: ITodoUList;
     _useLocal: boolean;
     static i: number;
