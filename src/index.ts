@@ -32,6 +32,10 @@ class TodoList extends HTMLElement implements ITodoList {
     _submit = this.querySelector<HTMLButtonElement>('[ref="submit"]')!;
     _list = this.querySelector<ITodoListElement>('[ref="list"]')!;
     _useLocal = this.hasAttribute('use-local');
+    static i = 1;
+    static getId() {
+        return this.i++
+    }
     constructor() {
         super();
     }
@@ -59,7 +63,10 @@ class TodoList extends HTMLElement implements ITodoList {
         const li = document.createElement('li', { is: 'todo-item' });
         li.setAttribute('title', todo);
         */
-        this._list.insertAdjacentHTML('beforeend', `<todo-item title="${todo}"></todo-item>`)
+        this._list.insertAdjacentHTML('beforeend', `<li ref="${TodoList.getId()}">
+            <span>${todo}</span>
+            <button type="button">&times; Clear<button>
+        </li>`)
 
         this._todos.set(this._lastItem, todo);
         this._input.value = '';
@@ -82,13 +89,14 @@ class TodoList extends HTMLElement implements ITodoList {
         }
     }
 
-    handleEvent({ type, target }) {
-        if (
-            type === 'click' &&
-            target.closest('[ref="submit"]') &&
-            this._input.value !== ''
-        ) {
-            this.add(this._input.value);
+    handleEvent({ target }) {
+        switch(true) {
+            case target.closest('[ref="submit"]') && this._input.value !== '':
+                this.add(this._input.value);
+                break;
+            case target.closest('li > button'):
+                this.delete(target.closest('li'));
+                break;
         }
     }
 
@@ -105,52 +113,4 @@ class TodoList extends HTMLElement implements ITodoList {
     }
 }
 
-class TodoItem extends HTMLElement implements ITodoItem {
-    _listParent: ITodoList = this.closest('todo-list')!;
-    constructor() {
-        super();
-        if (!this.hasAttribute('title')) {
-            console.error('<todo-item> must have a title attribute to be constructed');
-        }
-        // Customized built-in elements don't have enough support. Using the role attribute ponyfills it.
-        this.setAttribute('role', 'listitem');
-    }
-
-    static observedAttributes() {
-        return ['title'];
-    }
-
-    render(title: string) {
-        this.innerHTML = `<span>${title}</span><button type="button">&times; Clear</button>`;
-    }
-
-    attributeChangedCallback(name: string, _oldValue: unknown, newValue: string) {
-        if (name !== 'title') return;
-
-        this.render(newValue);
-    }
-
-    _removeSelf() {
-        this._listParent.delete(this);
-    }
-
-    handleEvent({ type, target }) {
-        if (type !== 'click') return;
-        if (!(target as HTMLElement).closest('[type="button"]')) return;
-
-        this._removeSelf();
-    }
-
-    connectedCallback() {
-        console.log('connected');
-        this.render(this.getAttribute('title')!);
-        this.addEventListener('click', this as unknown as EventListenerObject);
-    }
-
-    disconnectedCallback() {
-        this.removeEventListener('click', this as unknown as EventListenerObject);
-    }
-}
-
 window.customElements.define('todo-list', TodoList);
-window.customElements.define('todo-item', TodoItem);
